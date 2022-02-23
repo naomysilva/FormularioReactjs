@@ -1,10 +1,8 @@
-// exportações de biblioteca
 import React from 'react';
 import './App.css';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-
 
 //para validação dos campos foi utilizado React Hook Form para simplicação das validações
 //schema foi escolhido para verificação dos campos pois o processo de entrada de dados e exibição para usuario é mais dinamico
@@ -12,12 +10,12 @@ const schema = yup
   .object({
     nome: yup.string()
     .required("O nome é obrigatório")
-    .max(120, "ultrapassou limite exigido"),
+    .max(120, "ultrapassou limite de caracter exigido"),
     email: yup
       .string()
       .email("Digite um email válido")
       .required("O email é obrigatório")
-      .max(120, "ultrapassou limite exigido"),
+      .max(120, "ultrapassou limite de caracter exigido"),
     password: yup
       .string()
       .min(6, "A senha deve ter pelo menos 6 digitos")
@@ -29,12 +27,13 @@ const schema = yup
   })
   .required();
 
-function App() {
+function registro() {
   const { register, handleSubmit, watch, formState: { errors } } =useForm({
     resolver: yupResolver(schema),
   });
 
-
+  
+  { /* a função abaixo ira receber os dados do usuario assim que ele clicar em cadastrar*/ }
   function onSubmit(userData){
     console.log(userData)
   }
@@ -43,11 +42,11 @@ function App() {
 
   return (
    <form onSubmit={handleSubmit(onSubmit)}>  { /* Evento que será acionado quando o botão for acionado  */ }
-   <h1>Cadastramento</h1>
+   <h1>Cadastramento Usuario</h1>
    <label>
      Nome:
      <input {...register("nome")}/>
-            <span> <p>{errors.nome?.message}</p></span>           { /* irar mostrar os erros caso ocorra algum */ }
+            <span> <p>{errors.nome?.message}</p></span>           { /* irar mostrar mensagem de erro caso aconteça algum */ }
 
    </label>
    <label>
@@ -77,6 +76,4 @@ function App() {
   );
   
 }
-
-export default App;
-
+export default registro;
